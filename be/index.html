@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload</title>
+</head>
+<body>
+
+  <h2>File Upload</h2>
+
+  <form id="uploadForm">
+    <label for="fileInput">Select Files:</label>
+    <input type="file" id="fileInput" name="file" multiple>
+    <br>
+    <button type="button" onclick="uploadFile()">Submit</button>
+  </form>
+
+  <script>
+    function uploadFile() {
+      // Get the input element and selected files
+      const fileInput = document.getElementById('fileInput');
+      const files = fileInput.files;
+
+      // Create FormData object to send files along with the request
+      const formData = new FormData();
+
+      // Append each file to the FormData object
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+      }
+
+      // Specify your API endpoint
+      const apiEndpoint = 'http://exampleaws.com:3000/upload';
+
+      // Make a POST request using Fetch API
+      fetch(apiEndpoint, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the API response as needed
+        alert(JSON.stringify(data));
+        console.log('Response from server:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
+
+</body>
+</html>
